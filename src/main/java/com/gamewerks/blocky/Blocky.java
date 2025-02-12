@@ -14,18 +14,18 @@ import com.gamewerks.blocky.gfx.BlockyPanel;
 public class Blocky {
     private static final int FPS = 10;
     private static final double SPF = 1000000000.0 / FPS;
-    
+
     public static void main(String[] args) {
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setTitle("Blocky");
-        
+
         BlockyGame game = new BlockyGame();
         BlockyPanel panel = new BlockyPanel(game);
         frame.add(panel);
         frame.pack();
         frame.setVisible(true);
-        
+
         frame.addKeyListener(new KeyAdapter() {
             public void keyPressed(KeyEvent e) {
                 int code = e.getKeyCode();
@@ -35,7 +35,7 @@ public class Blocky {
                     game.setDirection(Direction.RIGHT);
                 }
             }
-            
+
             public void keyReleased(KeyEvent e) {
                 int code = e.getKeyCode();
                 if (code == e.VK_LEFT || code == e.VK_RIGHT) {
@@ -47,7 +47,7 @@ public class Blocky {
                 }
             }
         });
-        
+
         long timeElapsed = 0;
         long prevTime = System.nanoTime();
         while (true) {

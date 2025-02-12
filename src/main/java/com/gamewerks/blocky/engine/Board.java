@@ -8,19 +8,19 @@ import com.gamewerks.blocky.util.Position;
 
 public class Board {
     private boolean[][] well;
-    
+
     public Board() {
         well = new boolean[Constants.BOARD_HEIGHT][Constants.BOARD_WIDTH];
     }
-    
+
     public boolean isValidPosition(int row, int col) {
         return row >= 0 && row <= well.length && col >= 0 && col <= well[0].length;
     }
-    
+
     public boolean collides(Piece p) {
         return collides(p.getLayout(), p.getPosition());
     }
-    
+
     public boolean collides(boolean[][] layout, Position pos) {
         for (int row = 0; row < layout.length; row++) {
             int wellRow = pos.row - row;
@@ -37,7 +37,7 @@ public class Board {
         }
         return false;
     }
-    
+
     public void addToWell(Piece p) {
         boolean[][] layout = p.getLayout();
         Position pos = p.getPosition();
@@ -51,25 +51,25 @@ public class Board {
             }
         }
     }
-    
+
     public void deleteRow(int n) {
         for (int row = 0; row < n - 1; row++) {
             for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-                well[row][col] = well[row+1][col];
+                well[row][col] = well[row + 1][col];
             }
         }
         for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
             well[n][col] = false;
         }
     }
-    
+
     public void deleteRows(List rows) {
         for (int i = 0; i < rows.size(); i++) {
             int row = (Integer) rows.get(i);
             deleteRow(row);
         }
     }
-    
+
     public boolean isCompletedRow(int row) {
         boolean isCompleted = true;
         for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
@@ -77,7 +77,7 @@ public class Board {
         }
         return isCompleted;
     }
-    
+
     public List getCompletedRows() {
         List completedRows = new LinkedList();
         for (int row = 0; row < Constants.BOARD_HEIGHT; row++) {
@@ -87,6 +87,8 @@ public class Board {
         }
         return completedRows;
     }
-    
-    public boolean[][] getWell() { return well; }
+
+    public boolean[][] getWell() {
+        return well;
+    }
 }
