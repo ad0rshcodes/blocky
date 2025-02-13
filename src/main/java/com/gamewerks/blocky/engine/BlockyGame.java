@@ -21,8 +21,8 @@ public class BlockyGame {
 
     private void trySpawnBlock() {
         if (activePiece == null) {
-            activePiece = new Piece(PieceKind.I,
-                    new Position(2, Constants.BOARD_WIDTH / 2 - 2));
+            activePiece = new Piece(PieceKind.O,
+                    new Position(3, Constants.BOARD_WIDTH / 2 - 2));
             if (board.collides(activePiece)) {
                 System.exit(0);
             }
