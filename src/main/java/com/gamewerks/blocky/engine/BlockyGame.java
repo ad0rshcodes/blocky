@@ -2,6 +2,7 @@ package com.gamewerks.blocky.engine;
 
 import com.gamewerks.blocky.util.Constants;
 import com.gamewerks.blocky.util.Position;
+import java.util.Random;
 
 public class BlockyGame {
     private static final int LOCK_DELAY_LIMIT = 30;
@@ -12,16 +13,56 @@ public class BlockyGame {
 
     private int lockCounter;
 
+    Random rand = new Random();
+
+    private PieceKind[] pieces;
+    private int pieceIndex;
+
     public BlockyGame() {
         board = new Board();
         movement = Direction.NONE;
         lockCounter = 0;
+        initiatePieces(PieceKind.ALL);
         trySpawnBlock();
+    }
+
+    private void initiatePieces(PieceKind[] arr) {
+        this.pieces = new PieceKind[arr.length];
+        this.pieceIndex = rand.nextInt(arr.length);
+        for (int i = 0; i < arr.length; i++) {
+            pieces[i] = arr[i];
+            // System.out.println(pieces[i]);
+        }
+    }
+
+    private void shufflePieces(PieceKind[] arr) {
+        int rnd;
+        PieceKind temp;
+        for (int i = arr.length - 1; i > 0; i--) {
+            rnd = rand.nextInt(i);
+            temp = arr[i];
+            arr[i] = arr[rnd];
+            arr[rnd] = temp;
+        }
+    }
+
+    private PieceKind returnPiece() {
+        PieceKind p = pieces[pieceIndex];
+
+        if (pieceIndex >= pieces.length - 1) {
+            shufflePieces(pieces);
+            pieceIndex = 0;
+        } else {
+            pieceIndex++;
+        }
+
+        return p;
+
     }
 
     private void trySpawnBlock() {
         if (activePiece == null) {
-            activePiece = new Piece(PieceKind.O,
+            activePiece = new Piece(returnPiece(),
                     new Position(3, Constants.BOARD_WIDTH / 2 - 2));
             if (board.collides(activePiece)) {
                 System.exit(0);
