@@ -14,7 +14,7 @@ public class Board {
     }
 
     public boolean isValidPosition(int row, int col) {
-        return row >= 0 && row < well.length - 3 && col >= 0 && col <= well[0].length;
+        return row >= 0 && row < well.length - 3 && col >= 0 && col < well[0].length;
     }
 
     public boolean collides(Piece p) {
@@ -53,19 +53,21 @@ public class Board {
     }
 
     public void deleteRow(int n) {
-        for (int row = 0; row < n - 1; row++) {
-            for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
-                well[row][col] = well[row + 1][col];
-            }
-        }
         for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
             well[n][col] = false;
         }
+        for (int row = n; row > 0; row--) {
+            for (int col = 0; col < Constants.BOARD_WIDTH; col++) {
+                well[row][col] = well[row - 1][col];
+            }
+        }
+
     }
 
     public void deleteRows(List rows) {
         for (int i = 0; i < rows.size(); i++) {
-            int row = (Integer) rows.get(i);
+            int row = (int) rows.get(i);
+            System.out.println(row);
             deleteRow(row);
         }
     }
